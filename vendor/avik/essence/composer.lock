@@ -1,0 +1,55 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "56e052431f209c130d70f9b87c86a865",
+    "packages": [
+        {
+            "name": "avik/seed",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/aviyandev/avik-seed.git",
+                "reference": "540b058abdfe8148c8be0d56e2d3c8fb2f279626"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/aviyandev/avik-seed/zipball/540b058abdfe8148c8be0d56e2d3c8fb2f279626",
+                "reference": "540b058abdfe8148c8be0d56e2d3c8fb2f279626",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Avik\\Seed\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Core contracts for Avik framework",
+            "support": {
+                "issues": "https://github.com/aviyandev/avik-seed/issues",
+                "source": "https://github.com/aviyandev/avik-seed/tree/v1.0.0"
+            },
+            "time": "2025-12-28T10:28:12+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {},
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": ">=8.1"
+    },
+    "platform-dev": {},
+    "plugin-api-version": "2.9.0"
+}

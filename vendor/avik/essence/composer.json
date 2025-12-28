@@ -1,0 +1,16 @@
+{
+    "name": "avik/essence",
+    "description": "Core helpers, environment and configuration utilities for Avik",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Avik\\Essence\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=8.1",
+        "avik/seed": "^1.0"
+    },
+    "minimum-stability": "stable"
+}

@@ -1,0 +1,14 @@
+{
+    "name": "avik/seed",
+    "description": "Core contracts for Avik framework",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Avik\\Seed\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=8.1"
+    }
+}
