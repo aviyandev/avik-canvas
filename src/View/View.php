@@ -21,7 +21,14 @@ final class View
 
     public function render(): string
     {
-        $runtime = new ViewRuntime($this->viewsPath);
+        $runtime = new ViewRuntime(
+            $this->viewsPath,
+            fn(string $path) => $this->compileFile($path)
+        );
+
+        // Set data in runtime for component access
+        $runtime->setData($this->data);
+
         $compiledPath = $this->compile();
 
         $content = $this->engine->render(
@@ -36,7 +43,7 @@ final class View
 
             return $this->engine->render(
                 $compiledLayout,
-                ['content' => $content],
+                array_merge($this->data, ['content' => $content]),
                 $runtime
             );
         }
@@ -54,7 +61,7 @@ final class View
         $hash = md5($path);
         $compiled = $this->cachePath . '/' . $hash . '.php';
 
-        if (!is_file($compiled)) {
+        if (!is_file($compiled) || filemtime($path) > filemtime($compiled)) {
             $source = file_get_contents($path);
             $php = $this->compiler->compile($source);
             file_put_contents($compiled, $php);

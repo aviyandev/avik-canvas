@@ -5,3 +5,5 @@
 composer.lock
 publish.ps1
 publish.sh
+/storage
+

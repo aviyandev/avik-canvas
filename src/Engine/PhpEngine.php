@@ -8,19 +8,15 @@ final class PhpEngine
 {
     public function render(string $__path, array $__data, object $__runtime): string
     {
-        extract($__data, EXTR_SKIP);
-
-        ob_start();
-
-        $renderer = function () use ($__path) {
+        $render = function () use ($__path, $__data) {
+            extract($__data, EXTR_SKIP);
             include $__path;
         };
 
-        // Bind runtime as $this inside view
-        $renderer = $renderer->bindTo($__runtime, $__runtime);
+        $render = $render->bindTo($__runtime, $__runtime);
 
-        $renderer();
-
+        ob_start();
+        $render();
         return ob_get_clean();
     }
 }

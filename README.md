@@ -87,50 +87,56 @@ no elseif
 
 ###This keeps templates simple and readable.
 
-Layouts
+### Layouts
 @layout app
 
 @content
     ...
 @endcontent
 
+app refers to app.avik.php. The layout controls the structure, while child views define the content.
 
-app refers to app.avik.php
+### Components & Slots
+Components can now receive data and use slots for flexible content.
 
-###Layout controls structure
+```text
+@component('card', ['title' => 'User Profile'])
+    @slot('body')
+        <p>This is the profile body.</p>
+    @endslot
+@endcomponent
+```
 
-Child view only defines content
+In `components/card.avik.php`:
+```html
+<div class="card">
+    <h3>{{ title }}</h3>
+    <div class="body">
+        @yieldSlot('body')
+    </div>
+</div>
+```
 
-Components
-@component card
+### Advanced Features
 
+- **View Composers**: Bind data to specific views automatically.
+- **Custom Directives**: Extend the compiler with your own syntax.
+- **Shared Data**: Share variables across all views.
+- **Exception Handling**: Detailed exceptions for missing views or components.
 
-Loads components/card.avik.php
+### Example Usage
+```php
+$factory->share('app_name', 'Avik App');
 
-Static include
+$factory->composer('profile', function($data) {
+    $data['user'] = User::current();
+    return $data;
+});
 
-No props in v1
-
-No lifecycle
-
-No logic
-
-###Example View
-@layout app
-
-@content
-    <h1>{{ title }}</h1>
-
-    @each users as user
-        <p>{{ user.name }}</p>
-    @endEach
-
-    @show isAdmin
-        <strong>Admin Panel</strong>
-    @endshow
-
-    @component footer
-@endcontent
+$factory->directive('datetime', function($expression) {
+    return "<?php echo ($expression)->format('Y-m-d H:i:s'); ?>";
+});
+```
 
 Rendering a View
 $factory = new Factory(
