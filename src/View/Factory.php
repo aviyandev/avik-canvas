@@ -33,8 +33,7 @@ final class Factory
 
     public function exists(string $view): bool
     {
-        $path = $this->viewsPath . '/' . str_replace('.', '/', $view) . '.avik.php';
-
+        $path = $this->getViewPath($view);
         return is_file($path);
     }
 
@@ -45,22 +44,22 @@ final class Factory
 
     public function make(string $view, array $data = []): View
     {
-        $path = $this->viewsPath . '/' . str_replace('.', '/', $view) . '.avik.php';
+        $path = $this->getViewPath($view);
 
         if (!is_file($path)) {
             throw new ViewNotFoundException($view);
         }
 
-        // Apply composers
-        foreach ($this->composers['*'] ?? [] as $callback) {
-            $data = $callback($data);
-        }
-
-        foreach ($this->composers[$view] ?? [] as $callback) {
-            $data = $callback($data);
-        }
-
+        // Run composers
         $data = array_merge($this->shared, $data);
+
+        foreach ($this->composers['*'] ?? [] as $cb) {
+            $data = $cb($data) ?? $data;
+        }
+
+        foreach ($this->composers[$view] ?? [] as $cb) {
+            $data = $cb($data) ?? $data;
+        }
 
         return new View(
             $path,
@@ -70,5 +69,10 @@ final class Factory
             $this->cachePath,
             $this->viewsPath
         );
+    }
+
+    private function getViewPath(string $view): string
+    {
+        return $this->viewsPath . '/' . str_replace('.', '/', $view) . '.avik.php';
     }
 }

@@ -17,6 +17,6 @@ final class PhpEngine
 
         ob_start();
         $render();
-        return ob_get_clean();
+        return ob_get_clean() ?: '';
     }
 }

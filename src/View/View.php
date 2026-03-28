@@ -26,16 +26,11 @@ final class View
             fn(string $path) => $this->compileFile($path)
         );
 
-        // Set data in runtime for component access
         $runtime->setData($this->data);
 
-        $compiledPath = $this->compile();
+        $compiledPath = $this->compileFile($this->path);
 
-        $content = $this->engine->render(
-            $compiledPath,
-            $this->data,
-            $runtime
-        );
+        $content = $this->engine->render($compiledPath, $this->data, $runtime);
 
         if ($runtime->hasLayout()) {
             $layoutPath = $this->viewsPath . '/' . $runtime->getLayout() . '.avik.php';
@@ -51,17 +46,12 @@ final class View
         return $content;
     }
 
-    private function compile(): string
-    {
-        return $this->compileFile($this->path);
-    }
-
     private function compileFile(string $path): string
     {
-        $hash = md5($path);
+        $hash = md5($path . filemtime($path));
         $compiled = $this->cachePath . '/' . $hash . '.php';
 
-        if (!is_file($compiled) || filemtime($path) > filemtime($compiled)) {
+        if (!is_file($compiled)) {
             $source = file_get_contents($path);
             $php = $this->compiler->compile($source);
             file_put_contents($compiled, $php);
